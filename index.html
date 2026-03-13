@@ -8,12 +8,17 @@
         :root { --primary: #007bff; --success: #28a745; --dark: #2d3436; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f2f5; margin: 0; padding: 10px; color: var(--dark); }
         .container { max-width: 100%; margin: auto; }
+        
         .controls { 
             background: white; padding: 15px; border-radius: 12px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            position: sticky; top: 5px; z-index: 1000;
             border: 1px solid #e1e4e8; margin-bottom: 20px;
         }
+        /* Chỉ ghim bảng công cụ trên màn hình máy tính, bỏ ghim trên điện thoại */
+        @media (min-width: 768px) {
+            .controls { position: sticky; top: 5px; z-index: 1000; }
+        }
+
         .grid-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .grid-settings > div { flex: 1; }
         .full-width { grid-column: 1 / -1; }
