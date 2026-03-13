@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CÔNG CỤ GIÁ - 30 NCC</title>
+    <title>CÔNG CỤ GIÁ - TỐI ƯU CHIA SẺ</title>
     <style>
         :root { --primary: #007bff; --success: #28a745; --dark: #2d3436; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f2f5; margin: 0; padding: 10px; color: var(--dark); }
@@ -92,7 +92,10 @@
                 </div>
                 <textarea id="giaViet" readonly rows="2"></textarea>
             </div>
-            <div><label>Cỡ chữ</label><input type="range" id="textSize" min="1" max="25" value="8"></div>
+            <div>
+                <label>Cỡ chữ (%)</label>
+                <input type="number" id="textSize" value="8" min="1" max="50">
+            </div>
             <div><label>Màu</label><input type="color" id="textColor" value="#ffffff"></div>
             <div><label>Giá Trung</label><input type="number" id="giaTrung" value="3.9" step="0.1"></div>
             <div><label>Phí Thêm</label><input type="number" id="extraPrice" value="0"></div>
@@ -102,7 +105,7 @@
             </div>
             <div class="action-buttons">
                 <button id="downloadBtn">TẢI MÁY</button>
-                <button id="shareBtn">CHIA SẺ 0.5</button>
+                <button id="shareBtn">CHIA SẺ</button>
             </div>
             <div id="status" class="status">Sẵn sàng</div>
         </div>
@@ -118,7 +121,7 @@
     const getConfig = () => ({
         supplier: $('supplier').value,
         color: $('textColor').value,
-        sizeRatio: $('textSize').value / 100,
+        sizeRatio: (parseFloat($('textSize').value) || 8) / 100,
         pos: $('textPos').value,
         giaTrung: parseFloat($('giaTrung').value) || 0,
         giaNguoiLon: parseFloat($('giaNguoiLon').value) || 0,
@@ -207,9 +210,9 @@
     };
 
     $('shareBtn').onclick = async () => {
-        if (!navigator.canShare || !fileData.length) return alert("Lỗi chia sẻ!");
+        if (!navigator.canShare || !fileData.length) return alert("Lỗi!");
         const files = [];
-        $('status').innerText = "Đang xử lý nén 0.5...";
+        $('status').innerText = "Đang nén 0.5...";
         try {
             for (let i = 0; i < fileData.length; i++) {
                 const name = await renderImage(i, canvas);
@@ -217,7 +220,8 @@
                 files.push(new File([blob], `${name}.jpg`, { type: 'image/jpeg' }));
                 $('status').innerText = `Chuẩn bị: ${i+1}/${fileData.length}`;
             }
-            await navigator.share({ files, title: "Giá Việt" });
+            // Gọi lệnh share chỉ truyền mảng files, bỏ title và text
+            await navigator.share({ files });
             $('status').innerText = "Thành công!";
         } catch (e) { $('status').innerText = "Đã hủy."; }
     };
