@@ -1,79 +1,55 @@
-
-             <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CÔNG CỤ GIÁ - MOBILE OPTIMIZED</title>
+    <title>CÔNG CỤ GIÁ - TỐI ƯU MOBILE</title>
     <style>
         :root { --primary: #007bff; --success: #28a745; --dark: #2d3436; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f2f5; margin: 0; padding: 10px; color: var(--dark); }
-        
-        /* Container chính */
         .container { max-width: 100%; margin: auto; }
-
-        /* Bảng điều khiển tối ưu cho Mobile */
         .controls { 
             background: white; padding: 15px; border-radius: 12px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
             position: sticky; top: 5px; z-index: 1000;
-            border: 1px solid #e1e4e8;
-            margin-bottom: 20px;
+            border: 1px solid #e1e4e8; margin-bottom: 20px;
         }
-
-        .grid-settings { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; /* Chia 2 cột trên mobile */
-            gap: 10px; 
-        }
-
-        /* Ô nhập liệu to, dễ bấm */
+        .grid-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .grid-settings > div { flex: 1; }
-        .full-width { grid-column: 1 / -1; } /* Ô chiếm hết chiều ngang */
-
-        .formula-group { 
-            background: #f8f9fa; padding: 10px; border-radius: 8px; 
-            grid-column: 1 / -1; display: grid; 
-            grid-template-columns: 1fr 1fr; gap: 8px;
-        }
-
-        label { font-weight: 700; font-size: 0.7rem; color: #636e72; display: block; margin-bottom: 4px; text-transform: uppercase; }
-        input, select, button { 
-            width: 100%; padding: 12px; border: 1.5px solid #dfe6e9; 
-            border-radius: 8px; font-size: 0.95rem; box-sizing: border-box; 
-            -webkit-appearance: none; /* Reset style Safari */
-        }
-
-        /* Nút xuất ảnh to, nổi bật */
-        #downloadBtn { 
-            background: var(--success); color: white; font-weight: bold; 
-            border: none; margin-top: 15px; cursor: pointer; 
-            font-size: 1.1rem; padding: 16px; border-radius: 10px;
-        }
-
-        /* Grid hiển thị ảnh demo */
-        .preview-grid { 
-            display: grid; 
-            grid-template-columns: 1fr; /* 1 cột trên điện thoại nhỏ */
-            gap: 15px; 
-        }
+        .full-width { grid-column: 1 / -1; }
         
-        /* Trên máy tính hoặc điện thoại xoay ngang */
-        @media (min-width: 600px) {
-            .preview-grid { grid-template-columns: 1fr 1fr; }
+        label { font-weight: 700; font-size: 0.75rem; color: #2d3436; display: block; margin-bottom: 6px; text-transform: uppercase; border-left: 3px solid var(--success); padding-left: 5px;}
+        input[type="text"], input[type="number"], select, button, textarea { 
+            width: 100%; padding: 10px; border: 1px solid #ced4da; 
+            border-radius: 6px; font-size: 0.95rem; box-sizing: border-box; 
+            -webkit-appearance: none; font-family: inherit;
         }
+        textarea { resize: vertical; min-height: 60px; }
+        
+        #giaViet { color: #d63031; border: 1px dashed #d63031; background: #fff5f5; font-weight: bold; }
+        
+        .radio-group { display: flex; gap: 15px; align-items: center; padding: 5px 0; }
+        .radio-group label { border-left: none; text-transform: none; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 5px; cursor: pointer; margin: 0;}
+        .radio-group input[type="radio"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary); }
+        .radio-group input[type="number"] { width: 60px; padding: 6px; text-align: center; font-weight: bold; }
 
-        .preview-item { 
-            background: white; padding: 8px; border-radius: 10px; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; 
-        }
+        .header-with-btn { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .header-with-btn label { margin-bottom: 0; }
+        .btn-copy { background: var(--primary); color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-weight: bold; width: auto;}
 
+        .action-buttons { display: flex; gap: 10px; margin-top: 5px; grid-column: 1 / -1; }
+        .action-buttons button { color: white; font-weight: bold; border: none; cursor: pointer; font-size: 0.95rem; padding: 12px; border-radius: 8px; }
+        #downloadBtn { background: #636e72; flex: 1; }
+        #shareBtn { background: var(--success); flex: 1.5; }
+        #downloadBtn:disabled, #shareBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .preview-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        @media (min-width: 600px) { .preview-grid { grid-template-columns: 1fr 1fr; } }
+        .preview-item { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; }
         canvas { width: 100%; height: auto; border-radius: 4px; display: block; }
-
-        .status { text-align: center; margin-top: 10px; font-weight: bold; color: var(--primary); font-size: 0.9rem; }
-        
-        /* Tối ưu thanh kéo (Range slider) */
-        input[type="range"] { height: 30px; }
+        .status { text-align: center; margin-top: 10px; font-weight: bold; color: var(--primary); font-size: 0.9rem; grid-column: 1 / -1; }
+        input[type="range"] { height: 30px; padding: 0; }
+        input[type="color"] { padding: 2px; height: 40px; }
     </style>
 </head>
 <body>
@@ -81,14 +57,14 @@
 <div class="container">
     <div class="controls">
         <div class="grid-settings">
+            
             <div class="full-width">
                 <label>1. Chọn ảnh</label>
                 <input type="file" id="upload" accept="image/*" multiple>
             </div>
             <div>
-                <label>2. NCC</label>
+                <label>Nhà cung cấp</label>
                 <select id="supplier">
-                    
                     <option value="1A801">lan tùng (1A801)</option>
                     <option value="1A802">khải kiệt (1A802)</option>
                     <option value="1A803">alan (1A803)</option>
@@ -122,12 +98,28 @@
                 </select>
             </div>
             <div>
-                <label>3. Vị trí</label>
+                <label>Vị trí</label>
                 <select id="textPos">
-                    <option value="top-left">Trái-Trên</option>
-                    <option value="bottom-right" selected>Phải-Dưới</option>
+                    <option value="top-left">Trái - Trên</option>
+                    <option value="top-right">Phải - Trên</option>
+                    <option value="bottom-left">Trái - Dưới</option>
+                    <option value="bottom-right" selected>Phải - Dưới</option>
                 </select>
             </div>
+
+            <div class="full-width">
+                <label>2. Mã ghi đè (VD: 27-31—29D)</label>
+                <textarea id="overrideName" rows="3" placeholder="Nhập mã gốc tại đây... (bỏ trống dùng tên file ảnh)"></textarea>
+            </div>
+
+            <div class="full-width">
+                <div class="header-with-btn">
+                    <label>3. Giá Việt & Chữ trên ảnh</label>
+                    <button class="btn-copy" id="copyBtn">COPY</button>
+                </div>
+                <textarea id="giaViet" readonly rows="3" placeholder="Kết quả sẽ hiển thị ở đây..."></textarea>
+            </div>
+
             <div>
                 <label>Cỡ chữ</label>
                 <input type="range" id="textSize" min="1" max="25" value="8">
@@ -136,50 +128,62 @@
                 <label>Màu</label>
                 <input type="color" id="textColor" value="#ffffff">
             </div>
-            <div class="full-width">
-                <label>Mã ghi đè (vd: 16b/16l)</label>
-                <input type="text" id="overrideName" placeholder="Bỏ trống dùng tên file">
+
+            <div>
+                <label>Giá Trung</label>
+                <input type="number" id="giaTrung" value="3.9" step="0.1">
+            </div>
+            <div>
+                <label>Phí Thêm</label>
+                <input type="number" id="extraPrice" value="0">
             </div>
 
-            <div class="formula-group">
-                <div><label>Giá Trung</label><input type="number" id="giaTrung" value="3.9" step="0.1"></div>
-                <div><label>Phí Thêm</label><input type="number" id="extraPrice" value="0"></div>
-                <div><label>Người Lớn</label><input type="number" id="giaNguoiLon" value="17"></div>
-                <div><label>Trẻ Con</label><input type="number" id="giaTreEm" value="15"></div>
+            <div class="full-width radio-group">
+                <label>
+                    <input type="radio" name="ageGroup" value="L" checked> 
+                    Người lớn (+)
+                    <input type="number" id="giaNguoiLon" value="17">
+                </label>
+                <label>
+                    <input type="radio" name="ageGroup" value="B"> 
+                    Trẻ con (+)
+                    <input type="number" id="giaTreEm" value="15">
+                </label>
             </div>
+
+            <div class="action-buttons">
+                <button id="downloadBtn">TẢI MÁY</button>
+                <button id="shareBtn">CHIA SẺ ẢNH</button>
+            </div>
+            <div id="status" class="status">Sẵn sàng</div>
         </div>
-        <button id="downloadBtn">XUẤT & TẢI ẢNH</button>
-        <div id="status" class="status">Sẵn sàng</div>
     </div>
     <div id="previewGrid" class="preview-grid"></div>
 </div>
 
 <script>
     const $ = id => document.getElementById(id);
-    const upload = $('upload'), previewGrid = $('previewGrid'), status = $('status'), downloadBtn = $('downloadBtn');
-    const configIds = ['supplier', 'textColor', 'textSize', 'textPos', 'giaTrung', 'giaNguoiLon', 'giaTreEm', 'extraPrice', 'overrideName'];
+    const upload = $('upload'), previewGrid = $('previewGrid'), status = $('status'), downloadBtn = $('downloadBtn'), shareBtn = $('shareBtn');
+    const configIds = ['supplier', 'textColor', 'textSize', 'textPos', 'giaTrung', 'extraPrice', 'overrideName', 'giaNguoiLon', 'giaTreEm'];
     let fileData = [];
 
-    function calculateFinalPrice(filename, config) {
-        const sourceName = config.overrideName || filename;
-        const processPart = (part) => {
-            const match = part.trim().match(/^(\d+)([blBL])/);
-            if (match) {
-                const num = parseFloat(match[1]);
-                const type = match[2].toLowerCase();
-                const base = num * config.giaTrung;
-                const final = (type === 'l' ? base + config.giaNguoiLon : base + config.giaTreEm) + config.extraPrice;
-                return Math.round(final);
-            }
-            return part.split(/[\s._-]/)[0];
-        };
-        return sourceName.includes('/') ? sourceName.split('/').map(processPart).join('/') : processPart(sourceName);
-    }
+    // Nút Copy
+    $('copyBtn').onclick = () => {
+        const textToCopy = $('giaViet').value;
+        if (!textToCopy) return;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const btn = $('copyBtn');
+            btn.innerText = "ĐÃ COPY!";
+            btn.style.backgroundColor = "var(--success)";
+            setTimeout(() => {
+                btn.innerText = "COPY";
+                btn.style.backgroundColor = "var(--primary)";
+            }, 2000);
+        });
+    };
 
-    async function render(index, canvas) {
-        const file = fileData[index];
-        const img = await loadImage(file);
-        const config = {
+    function getConfig() {
+        return {
             supplier: $('supplier').value,
             color: $('textColor').value,
             sizeRatio: $('textSize').value / 100,
@@ -188,11 +192,61 @@
             giaNguoiLon: parseFloat($('giaNguoiLon').value) || 0,
             giaTreEm: parseFloat($('giaTreEm').value) || 0,
             extraPrice: parseFloat($('extraPrice').value) || 0,
-            overrideName: $('overrideName').value.trim()
+            overrideName: $('overrideName').value.trim(),
+            ageGroup: document.querySelector('input[name="ageGroup"]:checked').value
         };
+    }
 
-        const priceStr = calculateFinalPrice(file.name, config);
-        const displayText = `${config.supplier}Ht${priceStr}`;
+    // Tính giá chung
+    function calculatePrices(text, config, returnType = 'formatted') {
+        if (!text) return returnType === 'array' ? [] : "";
+        const lines = text.split('\n');
+        const pricesArray = [];
+        
+        const processedLines = lines.map(line => {
+            const regex = /(\d+)(?:\s*(?:d|¥|tệ))?\s*$/i;
+            if (regex.test(line)) {
+                return line.replace(regex, (match, p1) => {
+                    const priceCNY = parseFloat(p1);
+                    const base = priceCNY * config.giaTrung;
+                    const fee = config.ageGroup === 'L' ? config.giaNguoiLon : config.giaTreEm;
+                    const finalPrice = Math.round(base + fee + config.extraPrice);
+                    pricesArray.push(finalPrice);
+                    return `${finalPrice}k`; 
+                });
+            }
+            return line; 
+        });
+
+        return returnType === 'array' ? pricesArray : processedLines.join('\n');
+    }
+
+    function updateGiaVietPreview() {
+        const config = getConfig();
+        if (config.overrideName) {
+            $('giaViet').value = calculatePrices(config.overrideName, config, 'formatted');
+        } else if (fileData.length > 0) {
+            const fileName = fileData[0].name.replace(/\.[^/.]+$/, "");
+            $('giaViet').value = calculatePrices(fileName, config, 'formatted');
+        } else {
+            $('giaViet').value = "";
+        }
+    }
+
+    // Render ảnh
+    async function render(index, canvas) {
+        const file = fileData[index];
+        const img = await loadImage(file);
+        const config = getConfig();
+
+        let sourceText = config.overrideName || file.name.replace(/\.[^/.]+$/, "");
+        
+        // Cấu trúc text in lên ảnh: Mã ncc + ht + giá1/giá2
+        const extractedPrices = calculatePrices(sourceText, config, 'array');
+        let displayText = `${config.supplier}ht`;
+        if (extractedPrices.length > 0) {
+            displayText += extractedPrices.join('/');
+        }
 
         canvas.width = img.width;
         canvas.height = img.height;
@@ -207,19 +261,39 @@
 
         const margin = fontSize * 0.8;
         const metrics = ctx.measureText(displayText);
-        let x = margin, y = fontSize + margin;
-        if (config.pos === 'bottom-right') {
-            x = img.width - metrics.width - margin;
-            y = img.height - margin;
+        
+        let x = margin;
+        let y = margin + fontSize;
+
+        // Xử lý 4 vị trí góc
+        switch (config.pos) {
+            case 'top-left':
+                x = margin;
+                y = margin + fontSize;
+                break;
+            case 'top-right':
+                x = img.width - metrics.width - margin;
+                y = margin + fontSize;
+                break;
+            case 'bottom-left':
+                x = margin;
+                y = img.height - margin;
+                break;
+            case 'bottom-right':
+                x = img.width - metrics.width - margin;
+                y = img.height - margin;
+                break;
         }
 
         ctx.fillText(displayText, x, y);
         return displayText.replace(/\//g, '-');
     }
 
+    // Upload & Events
     upload.onchange = async (e) => {
         fileData = Array.from(e.target.files);
         previewGrid.innerHTML = "";
+        updateGiaVietPreview();
         for (let i = 0; i < fileData.length; i++) {
             const card = document.createElement('div');
             card.className = 'preview-item';
@@ -227,29 +301,62 @@
             previewGrid.appendChild(card);
             await render(i, card.querySelector('canvas'));
         }
+        status.innerText = `Đã tải ${fileData.length} ảnh`;
     };
 
-    configIds.forEach(id => $(id).oninput = () => {
-        document.querySelectorAll('.preview-item').forEach((item, i) => {
-            render(i, item.querySelector('canvas'));
-        });
+    const reRenderAll = async () => {
+        updateGiaVietPreview();
+        const items = document.querySelectorAll('.preview-item');
+        for (let i = 0; i < items.length; i++) {
+            await render(i, items[i].querySelector('canvas'));
+        }
+    };
+    
+    configIds.forEach(id => $(id).addEventListener('input', reRenderAll));
+    document.querySelectorAll('input[name="ageGroup"]').forEach(radio => {
+        radio.addEventListener('change', reRenderAll);
     });
 
+    // Actions
     downloadBtn.onclick = async () => {
         if (!fileData.length) return;
-        downloadBtn.disabled = true;
+        downloadBtn.disabled = true; shareBtn.disabled = true;
         for (let i = 0; i < fileData.length; i++) {
-            status.innerText = `Đang tải: ${i + 1}/${fileData.length}`;
+            status.innerText = `Đang lưu: ${i + 1}/${fileData.length}`;
             const hiddenCanvas = document.createElement('canvas');
             const saveName = await render(i, hiddenCanvas);
             const link = document.createElement('a');
-            link.download = `${saveName}.jpg`;
+            link.download = `[SP]_${saveName}.jpg`;
             link.href = hiddenCanvas.toDataURL('image/jpeg', 0.9);
             link.click();
-            await new Promise(r => setTimeout(r, 400));
+            await new Promise(r => setTimeout(r, 300));
         }
-        status.innerText = "✅ Hoàn tất!";
-        downloadBtn.disabled = false;
+        status.innerText = "✅ Lưu máy thành công!";
+        downloadBtn.disabled = false; shareBtn.disabled = false;
+    };
+
+    shareBtn.onclick = async () => {
+        if (!fileData.length) return;
+        if (!navigator.canShare) {
+            alert("Trình duyệt không hỗ trợ chia sẻ trực tiếp."); return;
+        }
+        downloadBtn.disabled = true; shareBtn.disabled = true;
+        status.innerText = "Đang chuẩn bị ảnh để chia sẻ...";
+        try {
+            const filesToShare = [];
+            const shareTitle = $('giaViet').value.replace(/\n/g, ' | '); 
+            for (let i = 0; i < fileData.length; i++) {
+                const hiddenCanvas = document.createElement('canvas');
+                const saveName = await render(i, hiddenCanvas);
+                const blob = await new Promise(r => hiddenCanvas.toBlob(r, 'image/jpeg', 0.9));
+                filesToShare.push(new File([blob], `${saveName}.jpg`, { type: 'image/jpeg' }));
+            }
+            await navigator.share({ files: filesToShare, title: shareTitle, text: shareTitle });
+            status.innerText = "✅ Mở chia sẻ thành công!";
+        } catch (error) {
+            status.innerText = "Hủy chia sẻ hoặc có lỗi.";
+        }
+        downloadBtn.disabled = false; shareBtn.disabled = false;
     };
 
     function loadImage(file) {
